@@ -87,7 +87,7 @@ type ResourceVariableKind string
 const (
 	// ResourceVariableKindStatic represents a static variable. Static variables
 	// are resolved at the beginning of the execution and their value is constant.
-	// Static variables are easy to find, they always start with 'spec'. Refereing
+	// Static variables are easy to find, they always start with 'spec'. Referring
 	// to the instance spec.
 	//
 	// For example:

@@ -550,7 +550,7 @@ func (rt *ResourceGroupRuntime) WantToCreateResource(resourceID string) (bool, e
 		}
 		// returning a reason here to point out which expression is not ready yet
 		if !value.(bool) {
-			return false, fmt.Errorf("Skipping resource creation due to condition %s", condition)
+			return false, fmt.Errorf("skipping resource creation due to condition %s", condition)
 		}
 	}
 	return true, nil

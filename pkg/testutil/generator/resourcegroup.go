@@ -20,6 +20,7 @@ import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 
+	"github.com/awslabs/kro/api/v1alpha1"
 	krov1alpha1 "github.com/awslabs/kro/api/v1alpha1"
 )
 
@@ -49,6 +50,11 @@ func WithNamespace(namespace string) ResourceGroupOption {
 
 // WithSchema sets the definition and status of the ResourceGroup
 func WithSchema(kind, version string, spec, status map[string]interface{}) ResourceGroupOption {
+	return WithSchemaAndGroup(v1alpha1.KroDomainName, kind, version, spec, status)
+}
+
+// WithSchemaAndGroup sets the definition and status of the ResourceGroup
+func WithSchemaAndGroup(group, kind, version string, spec, status map[string]interface{}) ResourceGroupOption {
 	rawSpec, err := json.Marshal(spec)
 	if err != nil {
 		panic(err)
@@ -60,6 +66,7 @@ func WithSchema(kind, version string, spec, status map[string]interface{}) Resou
 
 	return func(rg *krov1alpha1.ResourceGroup) {
 		rg.Spec.Schema = &krov1alpha1.Schema{
+			Group:      group,
 			Kind:       kind,
 			APIVersion: version,
 			Spec: runtime.RawExtension{

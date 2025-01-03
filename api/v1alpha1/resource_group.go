@@ -60,6 +60,12 @@ type Schema struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="apiVersion is immutable"
 	APIVersion string `json:"apiVersion,omitempty"`
+	// The group of the resourcegroup. This is used to set the API group
+	// of the generated CRD. If omitted, it defaults to "kro.run".
+	//
+	// +kubebuilder:validation:Optional
+	// +kubebuilder:default="kro.run"
+	Group string `json:"group,omitempty"`
 	// The spec of the resourcegroup. Typically, this is the spec of
 	// the CRD that the resourcegroup is managing. This is adhering
 	// to the SimpleSchema spec
@@ -120,6 +126,7 @@ type Dependency struct {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:printcolumn:name="GROUP",type=string,priority=0,JSONPath=`.spec.schema.group`
 // +kubebuilder:printcolumn:name="APIVERSION",type=string,priority=0,JSONPath=`.spec.schema.apiVersion`
 // +kubebuilder:printcolumn:name="KIND",type=string,priority=0,JSONPath=`.spec.schema.kind`
 // +kubebuilder:printcolumn:name="STATE",type=string,priority=0,JSONPath=`.status.state`
